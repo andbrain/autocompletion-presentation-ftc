@@ -53,45 +53,6 @@
  
 \end{frame}
 
-\begin{frame}[fragile]{Exemplos de Problemas}
-
-    \begin{itemize}
-        \item Erros de digitação
-        \item Erros ortográficos
-        \item Pouco conhecimento da base de dados
-        \item Abordagem ``tentar e ver''
-        \item Resultados ruins
-    \end{itemize}
-    \pause
-    Para resolver estes problemas é utilizado \textbf{algoritmos de autocompletação}. No entanto, algoritmos de autocompletação de consultas ainda têm problemas!
-    
-\end{frame}
-
-\begin{frame}[fragile]{Exemplos de Problemas em AA}
-    
-    \begin{itemize}
-        \item Erros de digitação
-        \item Erros ortográficos
-        \item Atrasos de internet
-    \end{itemize}
-    
-    Algoritmos de autocompletação tradicionais não permitem erros de entrada.
-    
-    \pause
-    Para resolver estes problemas é utilizado técnicas de \textbf{tolerância a erros} capazes de responder \textbf{rapidamente} em poucos ms.
-
-\end{frame}
-
-\begin{frame}{Velocidade de Resposta}
-    \begin{itemize}
-        \justifying
-        \item Cada consulta necessita obter sugestões em menos de 100ms [Ji et al. 2009] para evitar atrasos perceptíveis durante a sessão interativa de busca. \pause
-        \item O tempo de resposta pode ser influenciado por outros fatores, tais como: congestionamento na rede, renderização do JS. \pause
-        \item Diante disto, os algoritmos de autocompletação devem ser cada vez mais rápidos e ainda assim tratar possíveis erros de entrada.
-    \end{itemize}
-
-\end{frame}
-
 \section{Árvores digitais}
 
 \begin{frame}[fragile]{Árvores Digitais}
@@ -106,73 +67,14 @@
 
 \end{frame}
 
-\begin{frame}[fragile]{Árvores Digitais}
-
-    Demonstração: \href{https://www.cs.usfca.edu/~galles/visualization/Trie.html}{\color{blue}\underline{Inicialização dos nós}}
-
-\end{frame}
-
 \section{Tolerância a erros}
 
 \begin{frame}{Tolerância a erros}
 	\begin{itemize}
 	    \justifying
 		\item Permite uma pequena quantidade de erros (usualmente controlado por um limiar $\tau$ chamado distância de edição). \pause
-		\item Exemplo: Se um usuário digita um prefixo incorreto \textbf{Schwarzenegger} tal como \textbf{Shwarz}, \textbf{Schwarzenegger} será sugerido se é permitido uma edição de erro no prefixo correspondente [Chaudhuri and Kaushik 2009]. 
+		\item A função \textbf{ed(s, t)} retorna as distâncias de edição entre duas strings \textbf{s} e \textbf{t}, no qual mede o número mínimo de operações de edição, incluindo inserção, exclusão e substituição de um caractere, para transformar \textbf{s} em \textbf{t}
 	\end{itemize}
-\end{frame}
-
-\begin{frame}{Tolerância a erros}
-	\begin{itemize}
-		\item A função \textbf{ed(s, t)} retorna as distâncias de edição entre duas strings \textbf{s} e \textbf{t}, no qual mede o número mínimo de operações de edição, incluindo inserção, exclusão e substituição de um caractere, para transformar \textbf{s} em \textbf{t}. \pause
-		\item \textbf{Definição:} Dado uma coleção de palavras $S$, uma consulta $q$, e um limiar de distância de edição $\tau$, a autocompletação de consulta com tolerância a erro deve retornar todas as palavras $s \in S$, tal que $\exists s' \leq s$ onde $s'=s[1 \ldots |s'|], ed(s', q) \leq \tau$. Os resultados são computados incrementalmente conforme o usuário modifica a consulta.
-	\end{itemize}
-\end{frame}
-
-\begin{frame}{Tolerância a erros}
-	\begin{itemize}
-		\item S = [bola, bolo, bala]. 
-		\item s’ = [ [b, bo, bol, bola], [b, bo, bol, bolo], [b, ba, bal, bala] ]
-		\item q = ``bolq''.
-		\item $\tau = 1$.
-	\end{itemize}
-	
-	\pause
-	\textbf{ed(b, bolq) = ? | ed(bo, bolq) = ? | ed(bol, bolq) = ? | ed(bola, bolq) = ?}
-	
-    \textbf{ed(b, bolq) = ? | ed(bo, bolq) = ? | ed(bol, bolq) = ? | ed(bolo, bolq) = ?}
-    
-    \textbf{ed(b, bolq) = ? | ed(ba, bolq) = ? | ed(bal, bolq) = ? | ed(bala, bolq) = ?}
-\end{frame}
-
-\begin{frame}{Tolerância a erros}
-	\begin{itemize}
-		\item S = [bola, bolo, bala]. 
-		\item s’ = [ [b, bo, bol, bola], [b, bo, bol, bolo], [b, ba, bal, bala] ]
-		\item q = ``bolq''.
-		\item $\tau = 1$.
-	\end{itemize}
-	
-	\textbf{ed(b, bolq) = 3 | ed(bo, bolq) = 2 | ed(bol, bolq) = 1 | ed(bola, bolq) = 1}
-	
-    \textbf{ed(b, bolq) = ? | ed(bo, bolq) = ? | ed(bol, bolq) = ? | ed(bolo, bolq) = ?}
-    
-    \textbf{ed(b, bolq) = ? | ed(ba, bolq) = ? | ed(bal, bolq) = ? | ed(bala, bolq) = ?}
-\end{frame}
-
-\begin{frame}{Tolerância a erros}
-	\begin{itemize}
-		\item S = [bola, bolo, bala]. 
-		\item s’ = [ [b, bo, bol, bola], [b, bo, bol, bolo], [b, ba, bal, bala] ]
-		\item q = ``bolq''.
-		\item $\tau = 1$.
-	\end{itemize}
-	
-	\textbf{ed(b, bolq) = 3 | ed(bo, bolq) = 2 | ed(bol, bolq) = 1 | ed(bola, bolq) = 1}
-	
-    \textbf{ed(b, bolq) = 3 | ed(bo, bolq) = 2 | ed(bol, bolq) = 1 | ed(bolo, bolq) = 1}
-    
-    \textbf{ed(b, bolq) = ? | ed(ba, bolq) = ? | ed(bal, bolq) = ? | ed(bala, bolq) = ?}
 \end{frame}
 
 \begin{frame}{Tolerância a erros}
@@ -206,32 +108,9 @@
 
 \end{frame}
 
-\section{Principais algoritmos}
+\section{BEVA}
 
-\begin{frame}{Principais algoritmos}
-    
-   \begin{itemize}
-		\item \textbf{$\big[ \text{ICAN} \big]$ S. Ji, G. Li, C.Li, and J. Feng. Efficient interactive fuzzy keyword search, 2009}
-		\item \textbf{$\big[ \text{ICPAN} \big]$ S. Ji, G. Li, C.Li, and J. Feng. Efficient fuzzy full-text type-ahead search, 2011.}
-		\item $\big[ \text{IncNGTrie} \big]$ C. Xiao, J. Qin, W. Wang, Y. Ishikawa, K. Tsuda, and K. Sadakane. Efficient error-tolerant query autocompletion, 2013.
-		\item $\big[ \text{PIVOTAL} \big]$ D. Deng, G. Li, and J. Feng. A pivotal prefix based filtering algorithm for string similarity search, 2014.
-    \end{itemize} 
-    
-\end{frame}
-
-\begin{frame}{Principais algoritmos}
-    
-   \begin{itemize}
-		\item $\big[ \text{HSTRee} \big]$ J. Wang, G. Li, D. Deng, Y. Zhang, and J. Feng. Two birds with one stone: An efficient hierarchical framework for top-k and threshold-based string similarity search, 2015.
-		\item $\big[ \text{META} \big]$ D. Deng, G. Li, H. Wen, H. V. Jagadish, and J. Feng. META: An Efficient Matching-Based Method for Error-Tolerant Autocompletion, 2016.
-        \item \textbf{$\big[ \text{BEVA} \big]$ C. Xiao, J. Qin, and W. Wang. BEVA: An efficient Query Processing algorithm for Error-Tolerant Autocompletion, 2016.}
-    \end{itemize} 
-    
-\end{frame}
-
-\subsection{BEVA}
-
-\begin{frame}{[BEVA] BEVA: An efficient Query Processing algorithm for Error-Tolerant Autocompletion, \cite{BEVA}}
+\begin{frame}{[BEVA] BEVA: An efficient Query Processing algorithm for Error-Tolerant Autocompletion, 2016}
 
     \large
     Utiliza os conceitos de:
@@ -277,153 +156,6 @@
     \begin{tabular}{llllll}
      &  & \multicolumn{1}{c}{{\color[HTML]{656565} 0}} & \multicolumn{1}{c}{{\color[HTML]{656565} 1}} & \multicolumn{1}{c}{{\color[HTML]{656565} 2}} & \multicolumn{1}{c}{{\color[HTML]{656565} 3}} \\
      &  &  & \textbf{x} & \textbf{a} & \textbf{d} \\ \cline{3-6} 
-    {\color[HTML]{656565} 0} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{3-6} 
-    {\color[HTML]{656565} 1} & \multicolumn{1}{l|}{\textbf{a}} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{3-6} 
-    {\color[HTML]{656565} 2} & \multicolumn{1}{l|}{\textbf{b}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} \\ \cline{3-6} 
-    {\color[HTML]{656565} 3} & \multicolumn{1}{l|}{\textbf{c}} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{3-6} 
-    {\color[HTML]{656565} 4} & \multicolumn{1}{l|}{\textbf{d}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} \\ \cline{3-6} 
-    \end{tabular}
-    \end{table}
-    
-\end{frame}
-
-\begin{frame}{[BEVA] BEVA: An efficient Query Processing algorithm for Error-Tolerant Autocompletion, 2016}
-
-    Computação do limiar de distância de edição:
-  
-    \begin{table}[]
-    \begin{tabular}{llllll}
-     &  & \multicolumn{1}{c}{{\color[HTML]{656565} 0}} & \multicolumn{1}{c}{{\color[HTML]{656565} 1}} & \multicolumn{1}{c}{{\color[HTML]{656565} 2}} & \multicolumn{1}{c}{{\color[HTML]{656565} 3}} \\
-     &  &  & \textbf{x} & \textbf{a} & \textbf{d} \\ \cline{3-6} 
-    {\color[HTML]{656565} 0} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{{\color[HTML]{000000} 0}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 2}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 3}} \\ \cline{3-6} 
-    {\color[HTML]{656565} 1} & \multicolumn{1}{l|}{\textbf{a}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    {\color[HTML]{656565} 2} & \multicolumn{1}{l|}{\textbf{b}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 2}} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    {\color[HTML]{656565} 3} & \multicolumn{1}{l|}{\textbf{c}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 3}} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    {\color[HTML]{656565} 4} & \multicolumn{1}{l|}{\textbf{d}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 4}} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    \end{tabular}
-    \end{table}
-    
-    Inicializamos com a seguinte regra: $M[0, j] = j$ e $M[i, 0] = i$
-    
-\end{frame}
-
-\begin{frame}{[BEVA] BEVA: An efficient Query Processing algorithm for Error-Tolerant Autocompletion, 2016}
-
-    Computação do limiar de distância de edição:
-  
-    \begin{table}[]
-    \begin{tabular}{llllll}
-     &  & \multicolumn{1}{c}{{\color[HTML]{656565} 0}} & \multicolumn{1}{c}{{\color[HTML]{656565} 1}} & \multicolumn{1}{c}{{\color[HTML]{656565} 2}} & \multicolumn{1}{c}{{\color[HTML]{656565} 3}} \\
-     &  &  & \textbf{x} & \textbf{a} & \textbf{d} \\ \cline{3-6} 
-    {\color[HTML]{656565} 0} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{{\color[HTML]{000000} 0}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 2}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 3}} \\ \cline{3-6} 
-    {\color[HTML]{656565} 1} & \multicolumn{1}{l|}{\textbf{a}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} ?}} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    {\color[HTML]{656565} 2} & \multicolumn{1}{l|}{\textbf{b}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 2}} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    {\color[HTML]{656565} 3} & \multicolumn{1}{l|}{\textbf{c}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 3}} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    {\color[HTML]{656565} 4} & \multicolumn{1}{l|}{\textbf{d}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 4}} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    \end{tabular}
-    \end{table}
-    
-     \[ M[i, j] = min(M[i - 1, j - 1] + \delta(d[j], Q[i]), M[i - 1, j] + 1, M[i, j - 1] + 1) \]
-    
-\end{frame}
-
-\begin{frame}{[BEVA] BEVA: An efficient Query Processing algorithm for Error-Tolerant Autocompletion, 2016}
-
-    Computação do limiar de distância de edição:
-  
-    \begin{table}[]
-    \begin{tabular}{llllll}
-     &  & \multicolumn{1}{c}{{\color[HTML]{656565} 0}} & \multicolumn{1}{c}{{\color[HTML]{656565} 1}} & \multicolumn{1}{c}{{\color[HTML]{656565} 2}} & \multicolumn{1}{c}{{\color[HTML]{656565} 3}} \\
-     &  &  & \textbf{x} & \textbf{a} & \textbf{d} \\ \cline{3-6} 
-    {\color[HTML]{656565} 0} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{{\color[HTML]{000000} 0}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 2}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 3}} \\ \cline{3-6} 
-    {\color[HTML]{656565} 1} & \multicolumn{1}{l|}{\textbf{a}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} ?}} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    {\color[HTML]{656565} 2} & \multicolumn{1}{l|}{\textbf{b}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 2}} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    {\color[HTML]{656565} 3} & \multicolumn{1}{l|}{\textbf{c}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 3}} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    {\color[HTML]{656565} 4} & \multicolumn{1}{l|}{\textbf{d}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 4}} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    \end{tabular}
-    \end{table}
-    
-    \small
-    $M[1, 1] = min(M[1 - 1, 1 - 1] + \delta(d[1], Q[1]), M[1 - 1, 1] + 1, M[1, 1 - 1] + 1)$ \pause
-    
-    $M[1, 1] = min(M[0, 0] + \delta(x, a), M[0, 1] + 1, M[1, 0] + 1)$ \pause
-    
-    $M[1, 1] = min(1, 2, 2)$ \pause $\to \textbf{1}$
-    
-\end{frame}
-
-\begin{frame}{[BEVA] BEVA: An efficient Query Processing algorithm for Error-Tolerant Autocompletion, 2016}
-
-    Computação do limiar de distância de edição:
-  
-    \begin{table}[]
-    \begin{tabular}{llllll}
-     &  & \multicolumn{1}{c}{{\color[HTML]{656565} 0}} & \multicolumn{1}{c}{{\color[HTML]{656565} 1}} & \multicolumn{1}{c}{{\color[HTML]{656565} 2}} & \multicolumn{1}{c}{{\color[HTML]{656565} 3}} \\
-     &  &  & \textbf{x} & \textbf{a} & \textbf{d} \\ \cline{3-6} 
-    {\color[HTML]{656565} 0} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{{\color[HTML]{000000} 0}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 2}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 3}} \\ \cline{3-6} 
-    {\color[HTML]{656565} 1} & \multicolumn{1}{l|}{\textbf{a}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} ?}} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    {\color[HTML]{656565} 2} & \multicolumn{1}{l|}{\textbf{b}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 2}} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    {\color[HTML]{656565} 3} & \multicolumn{1}{l|}{\textbf{c}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 3}} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    {\color[HTML]{656565} 4} & \multicolumn{1}{l|}{\textbf{d}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 4}} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    \end{tabular}
-    \end{table}
-    
-    \small
-    $M[i, j] = min(M[i - 1, j - 1] + \delta(d[j], Q[i]), M[i - 1, j] + 1, M[i, j - 1] + 1)$ \pause
-    
-    $M[1, 2] = min(1, 3, 2)$ \pause $\to \textbf{1}$
-    
-\end{frame}
-
-\begin{frame}{[BEVA] BEVA: An efficient Query Processing algorithm for Error-Tolerant Autocompletion, 2016}
-
-    Computação do limiar de distância de edição:
-  
-    \begin{table}[]
-    \begin{tabular}{llllll}
-     &  & \multicolumn{1}{c}{{\color[HTML]{656565} 0}} & \multicolumn{1}{c}{{\color[HTML]{656565} 1}} & \multicolumn{1}{c}{{\color[HTML]{656565} 2}} & \multicolumn{1}{c}{{\color[HTML]{656565} 3}} \\
-     &  &  & \textbf{x} & \textbf{a} & \textbf{d} \\ \cline{3-6} 
-    {\color[HTML]{656565} 0} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{{\color[HTML]{000000} 0}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 2}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 3}} \\ \cline{3-6} 
-    {\color[HTML]{656565} 1} & \multicolumn{1}{l|}{\textbf{a}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} ?}} \\ \cline{3-6} 
-    {\color[HTML]{656565} 2} & \multicolumn{1}{l|}{\textbf{b}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 2}} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    {\color[HTML]{656565} 3} & \multicolumn{1}{l|}{\textbf{c}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 3}} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    {\color[HTML]{656565} 4} & \multicolumn{1}{l|}{\textbf{d}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 4}} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    \end{tabular}
-    \end{table}
-    
-    \small
-    $M[i, j] = min(M[i - 1, j - 1] + \delta(d[j], Q[i]), M[i - 1, j] + 1, M[i, j - 1] + 1)$ \pause
-    
-    $M[1, 3] = min(3, 4, 2)$ \pause $\to \textbf{2}$
-    
-\end{frame}
-
-\begin{frame}{[BEVA] BEVA: An efficient Query Processing algorithm for Error-Tolerant Autocompletion, 2016}
-
-    Computação do limiar de distância de edição:
-  
-    \begin{table}[]
-    \begin{tabular}{llllll}
-     &  & \multicolumn{1}{c}{{\color[HTML]{656565} 0}} & \multicolumn{1}{c}{{\color[HTML]{656565} 1}} & \multicolumn{1}{c}{{\color[HTML]{656565} 2}} & \multicolumn{1}{c}{{\color[HTML]{656565} 3}} \\
-     &  &  & \textbf{x} & \textbf{a} & \textbf{d} \\ \cline{3-6} 
-    {\color[HTML]{656565} 0} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{{\color[HTML]{000000} 0}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 2}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 3}} \\ \cline{3-6} 
-    {\color[HTML]{656565} 1} & \multicolumn{1}{l|}{\textbf{a}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 2}} \\ \cline{3-6} 
-    {\color[HTML]{656565} 2} & \multicolumn{1}{l|}{\textbf{b}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 2}} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    {\color[HTML]{656565} 3} & \multicolumn{1}{l|}{\textbf{c}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 3}} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} & \multicolumn{1}{l|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    {\color[HTML]{656565} 4} & \multicolumn{1}{l|}{\textbf{d}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 4}} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} \\ \cline{3-6} 
-    \end{tabular}
-    \end{table}
-    
-\end{frame}
-
-\begin{frame}{[BEVA] BEVA: An efficient Query Processing algorithm for Error-Tolerant Autocompletion, 2016}
-
-    Computação do limiar de distância de edição:
-  
-    \begin{table}[]
-    \begin{tabular}{llllll}
-     &  & \multicolumn{1}{c}{{\color[HTML]{656565} 0}} & \multicolumn{1}{c}{{\color[HTML]{656565} 1}} & \multicolumn{1}{c}{{\color[HTML]{656565} 2}} & \multicolumn{1}{c}{{\color[HTML]{656565} 3}} \\
-     &  &  & \textbf{x} & \textbf{a} & \textbf{d} \\ \cline{3-6} 
     {\color[HTML]{656565} 0} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{{\color[HTML]{000000} 0}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 2}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 3}} \\ \cline{3-6} 
     {\color[HTML]{656565} 1} & \multicolumn{1}{l|}{\textbf{a}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 1}} & \multicolumn{1}{l|}{{\color[HTML]{000000} 2}} \\ \cline{3-6} 
     {\color[HTML]{656565} 2} & \multicolumn{1}{l|}{\textbf{b}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 2}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 2}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 2}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 2}} \\ \cline{3-6} 
@@ -431,6 +163,8 @@
     {\color[HTML]{656565} 4} & \multicolumn{1}{l|}{\textbf{d}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 4}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 4}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 4}} & \multicolumn{1}{c|}{{\color[HTML]{000000} 3}} \\ \cline{3-6} 
     \end{tabular}
     \end{table}
+    
+    \[ M[i, j] = min(M[i - 1, j - 1] + \delta(d[j], Q[i]), M[i - 1, j] + 1, M[i, j - 1] + 1) \]
     
     $O(n \cdot m)$, onde $n$ e $m$ são os tamanhos de $d$ e $q$, respectivamente.
     
@@ -596,7 +330,7 @@
    
 \end{frame}
 
-\begin{frame}{[BEVA] BEVA: An efficient Query Processing algorithm for Error-Tolerant Autocompletion, 2016}
+\begin{frame}{[BEVA] BEVA: An efficient Query Processing algorithm for Error-Tolerant Autocompletion, 2016 \cite{BEVA}}
 
     \begin{figure}
       \includegraphics[scale=0.33]{pictures/edit_vector_automata_beva.png}
@@ -654,50 +388,6 @@
     
     \begin{figure}
       \includegraphics[scale=0.30]{pictures/time_response_length_7_beva.png}
-      \centering
-    \end{figure}
-   
-\end{frame}
-
-\begin{frame}{[BEVA] BEVA: An efficient Query Processing algorithm for Error-Tolerant Autocompletion, 2016}
-
-    Tempo de resposta para consultas com $\tau = 3$.
-    
-    \begin{figure}
-      \includegraphics[scale=0.30]{pictures/time_response_tau_3_beva.png}
-      \centering
-    \end{figure}
-   
-\end{frame}
-
-\begin{frame}{[BEVA] BEVA: An efficient Query Processing algorithm for Error-Tolerant Autocompletion, 2016}
-
-    Tamanho dos conjuntos de nós ativos para os algoritmos experimentados:
-    
-    \begin{figure}
-      \includegraphics[scale=0.30]{pictures/active_node_size_beva.png}
-      \centering
-    \end{figure}
-   
-\end{frame}
-
-\begin{frame}{[BEVA] BEVA: An efficient Query Processing algorithm for Error-Tolerant Autocompletion, 2016}
-
-    Comparações dos tempos de respostas dos algoritmos experimentados:
-    
-    \begin{figure}
-      \includegraphics[scale=0.30]{pictures/time_response_compare_beva.png}
-      \centering
-    \end{figure}
-   
-\end{frame}
-
-\begin{frame}{[BEVA] BEVA: An efficient Query Processing algorithm for Error-Tolerant Autocompletion, 2016}
-
-    Comparações dos tempos de respostas dos algoritmos experimentados:
-    
-    \begin{figure}
-      \includegraphics[scale=0.40]{pictures/time_response_with_ed_beva.png}
       \centering
     \end{figure}
    
